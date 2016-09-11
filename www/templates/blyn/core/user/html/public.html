@@ -1,0 +1,53 @@
+<!--View Information-->
+<!--View name : Dashboard-->
+<!--Controller name : dashboardCtrl-->
+<!--Controller path : www/templates/material-user-interface/dashboard/js/controllers.js-->
+<!--State name : app.dashboard-->
+<!--URL : #app/dashboard-->
+
+<ion-view view-title="">
+
+    <!--right button on navigation bar-->
+    <ion-nav-buttons side="right">
+        <md-button class="md-icon-button ion-nav-button-right" ng-click="goToSetting()"
+                   aria-label="Setting">
+            <i class="ion-android-more-vertical"></i>
+        </md-button>
+    </ion-nav-buttons> <!--end right button on navigation bar-->
+
+    <!--toolbar section-->
+    <md-toolbar class="bar-subheader md-tall md-primary toolbar-medium">
+        <div>
+            <h1>我立方平台</h1>
+
+            <h2>Public Page</h2>
+        </div>
+        <a class="md-button md-accent md-fab fab-toolbar-medium" href="#/user/login"
+           aria-label="Add">
+            <i class="icon ion-log-in"></i>
+        </a>
+    </md-toolbar><!--end toolbar section-->
+
+    <!--dashboard section-->
+    <ion-content id="dashboard-content">
+
+        <!--list section-->
+
+        <!--Below code it will disable animation to better performance-->
+        <div ng-if="!isAnimated" class="menu-list">
+            <md-subheader class="md-warn">机构</md-subheader>
+            <div class="row menu-item"  ng-click="navigateTo('user.space.dashboard')">
+                <div class="col-25">
+                    <i class="fa fa-list"></i>
+                </div>
+                <div class="col-50">
+                    <span>机构公共信息</span>
+                </div>
+                <div class="col-25 menu-more">
+                    <i class="ion-android-more-vertical"></i>
+                </div>
+            </div>
+        </md-list>
+        <!--end list section-->
+    </ion-content><!--end dashboard section-->
+</ion-view>
