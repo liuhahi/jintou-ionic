@@ -172,14 +172,6 @@ appControllers.controller('publicCtrl', function ($scope, $timeout, $state,$stat
 
 }); // End of dashboard controller.
 
-appControllers.controller('signupCtrl', function ($scope) {
-
-});
-
-appControllers.controller('loginCtrl', function ($scope) {
-
-});
-
 appControllers.controller('userDashboardCtrl', function ($scope) {
 
 });

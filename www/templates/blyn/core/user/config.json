@@ -1,8 +1,10 @@
 {
-	"nutType": "nut.core",
-	"nutPermits": {
-		"myAccount": {
-			"alias": "my account"
+	"nutConfig": {
+		"type": "nut.core",
+		"permits": {
+			"myAccount": {
+				"alias": "my account"
+			}
 		}
 	}
 }

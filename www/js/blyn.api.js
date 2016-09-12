@@ -1,12 +1,12 @@
-appServices.factory('api', api);
+appServices.factory('BApi', api);
 
 /** @ngInject */
 function api($resource) {
 
     var api = {};
-
+    
     // Base Url
-    api.baseUrl = '';
+    api.baseUrl = 'http://localhost:9000';
 
     api.auth = $resource(api.baseUrl + '/api/auth/:id/:controller', {
         id: '@_id'
@@ -22,6 +22,9 @@ function api($resource) {
     api.user = $resource(api.baseUrl + '/api/users/:id/:controller', {
         id: '@_id'
     }, {
+            create: {
+                method: 'POST'
+            },
             changePassword: {
                 method: 'PUT',
                 params: {

@@ -1,16 +1,16 @@
 {
-	"type": {
-        "type": "nut.core"
-    },
-	"nutPermits": {
-		"spaceAdmin": {
-			"alias": "space admin"
-		},
-		"spaceManager": {
-			"alias": "space member"
-		},
-		"spaceCustomer": {
-			"alias": "space customer"
+	"nutConfig": {
+		"type": "nut.core",
+		"permits": {
+			"spaceAdmin": {
+				"alias": "space admin"
+			},
+			"spaceManager": {
+				"alias": "space member"
+			},
+			"spaceCustomer": {
+				"alias": "space customer"
+			}
 		}
 	},
 	"joinSpacePermits": {
@@ -20,12 +20,12 @@
 		"allow.join": {
 			"name": "allow.join"
 		},
-		"allow.approve.auto": {
-			"name": "allow.approve.auto"
+		"allow.join.auto": {
+			"name": "allow.join.auto"
 		}
 	},
 	"types": {
-        "person": {
+		"person": {
 			"name": "normal",
 			"alias": "个人空间",
 			"description": "个人空间",
@@ -62,11 +62,9 @@
 					}
 				}
 			],
-			"apps": [
-				
-			]
+			"apps": []
 		},
-        "normal.member": {
+		"normal.member": {
 			"name": "normal.member",
 			"alias": "会员应用",
 			"description": "普通机构",

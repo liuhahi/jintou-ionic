@@ -2,12 +2,12 @@ angular.module('starter')
     .config(function ($urlRouterProvider, $stateProvider) {
 
         $urlRouterProvider.when(
-            '/user',
-            '/user/dashboard');
+            '#/user',
+            '#/user/dashboard');
 
         $urlRouterProvider.when(
-            '/public',
-            '/public/dashboard');
+            '#/user/public',
+            '#/user/public/dashboard');
 
         $stateProvider
             .state('user.public', {

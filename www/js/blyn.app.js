@@ -37,8 +37,19 @@ window.globalVariable = {
     adMob: "your_api_key" //Use for AdMob API clientID.
 };// End Global variable
 
-angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers', 'starter.services', 'ngMaterial', 'ngMessages', 'ngCordova'])
+angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers', 'starter.services', 'ngResource', 'ngStorage', 'ngMaterial', 'ngMessages', 'ngCordova'])
     .run(function ($ionicPlatform, $cordovaSQLite, $rootScope, $ionicHistory, $state, $mdDialog, $mdBottomSheet) {
+
+        $rootScope.$on('$stateChangeStart', function (event, next, nextParams, fromState) {
+            if (!AuthService.isAuthenticated()) {
+                console.log(next.name);
+                //    if (next.name !== 'outside.login' && next.name !== 'outside.register') {
+                if (next.name !== 'user.login' && next.name !== 'user.signup') {
+                    event.preventDefault();
+                    $state.go('user.login');
+                }
+            }
+        });
 
         //Create database table of contracts by using sqlite database.
         //Table schema :
@@ -315,7 +326,8 @@ angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers
                 resolve: {
                     currentSpace: function ($stateParams, $q, spaceService) {
                         if ($stateParams.spaceId) {
-                            return spaceService.getCurrent(spaceId);
+                            spaceService.setCurrent($stateParams.spaceId);
+                            return spaceService.getCurrent();
                         }
                     }
                 }

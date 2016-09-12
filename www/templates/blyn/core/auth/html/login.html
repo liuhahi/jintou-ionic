@@ -22,15 +22,15 @@
 
             <div id="fakeLogin">
                 <md-input-container md-no-float="">
-                    <input class="user-name" placeholder="Username">
+                    <input class="user-name" placeholder="Username" ng-model="user.loginId">
                 </md-input-container>
                 <hr/>
                 <md-input-container md-no-float="">
-                    <input class="user-password" type="password" placeholder="Password">
+                    <input class="user-password" type="password" placeholder="Password" ng-model="user.password">
                 </md-input-container>
             </div>
             <div>
-                <a class="md-raised social-button md-button md-default-theme material-background">
+                <a ng-click="login()" class="md-raised social-button md-button md-default-theme material-background">
                     Sign In
                 </a>
             </div>

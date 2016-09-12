@@ -1,4 +1,4 @@
-appServices.factory('BApp', function () {
+appServices.factory('appService', function () {
 
     var service = {};
     var current = {};
