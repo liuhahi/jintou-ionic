@@ -30,7 +30,7 @@ angular.module('starter')
                 views: {
                     'menuContent': {
                         templateUrl: "templates/blyn/core/user/html/login.html",
-                        controller: 'loginCtrl'
+                        controller: 'authCtrl'
                     }
                 }
             })
@@ -42,7 +42,7 @@ angular.module('starter')
                 views: {
                     'menuContent': {
                         templateUrl: "templates/blyn/core/user/html/signup.html",
-                        controller: 'signupCtrl'
+                        controller: 'authCtrl'
                     }
                 }
             })
