@@ -17,7 +17,7 @@ appServices.factory('BUser', function ($q, $http) {
         }
     }
 
-    //retunr promise
+    //return promise
     service.setCurrent = function (userData) {
         var that = this;
 
@@ -26,6 +26,14 @@ appServices.factory('BUser', function ($q, $http) {
         }).then(function () {
             return BApi.user.me().then(function (user) {
                 current = user;
+                return $q.when(user);
+            }).then(function(user){
+                //get user spaces
+                return BApi.space.getUserSpaces().then(function(spaces){
+                    current.spaces = spaces;
+                })
+            }).then(function(){
+                //always return promise
                 return $q.when(current);
             });
         });
