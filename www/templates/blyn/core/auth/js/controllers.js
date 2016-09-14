@@ -1,5 +1,5 @@
 // Controller of catalog Page.
-appControllers.controller('authCtrl', function ($scope, $mdToast, $mdDialog, $ionicPopup, Auth, $state) {
+appControllers.controller('authCtrl', function ($scope, $mdToast, $mdDialog, $ionicPopup, AuthService, $state) {
 
     $scope.user = {
         loginId: '',
@@ -9,7 +9,7 @@ appControllers.controller('authCtrl', function ($scope, $mdToast, $mdDialog, $io
     $scope.login = function () {
         //    alert("authCtrl login: " + $scope.user.loginId + ", " + $scope.user.password);
 
-        Auth.login($scope.user).then(function (data) {
+        AuthService.login($scope.user).then(function (data) {
             //  $state.go('myspaces');
             alert("success");
 
@@ -23,12 +23,12 @@ appControllers.controller('authCtrl', function ($scope, $mdToast, $mdDialog, $io
     }
 
     $scope.signup = function () {
-        Auth.register($scope.user).then(function (msg) {
-            $state.go('app.login');
+        AuthService.register($scope.user).then(function (msg) {
             var alertPopup = $ionicPopup.alert({
                 title: 'Register success!',
                 template: msg
             });
+            $state.go('user.login');
         }, function (errMsg) {
             var alertPopup = $ionicPopup.alert({
                 title: 'Register failed!',

@@ -1,5 +1,5 @@
-angular.module('blyn')
-    .config(function () {
+angular.module('starter')
+    .config(function ($stateProvider) {
         $stateProvider
             .state('user.space.app.circle', {
                 url: "/circle",
@@ -9,7 +9,7 @@ angular.module('blyn')
                 },
                 views: {
                     'menuContent': {
-                        templateUrl: "templates/blyn/core/circle/main.html",
+                        templateUrl: "templates/blyn/core/circle/html/main.html",
                         controller: 'circleCtrl'
                     }
                 },

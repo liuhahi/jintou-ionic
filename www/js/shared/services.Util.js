@@ -54,4 +54,4 @@ appServices.factory('Util', function ($window) {
     };
 
     return Util;
-}
+})

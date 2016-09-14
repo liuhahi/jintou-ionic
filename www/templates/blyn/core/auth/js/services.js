@@ -1,4 +1,4 @@
-appServices.factory('Auth', function ($q, $rootScope, Util, BUser, $location, $localStorage) {
+appServices.factory('Auth', function ($q, $rootScope, Util, BUser, $location, localStorage) {
 
   var isAuthenticated = false;
   var authToken;
@@ -7,20 +7,20 @@ appServices.factory('Auth', function ($q, $rootScope, Util, BUser, $location, $l
   var currentUser = {};
   //   var userRoles = appConfig.userRoles || [];
 
-  if ($localStorage.Token && $location.path() !== '/logout') {
+  if (localStorage.get("Token") && $location.path() !== '/logout') {
     currentUser = BUser.getCurrent();
   }
 
   function loadUserCredentials() {
     //  var token = window.localStorage.getItem(LOCAL_TOKEN_KEY);
-    var token = $localStorage.token;
+    var token = localStorage.get("Token");
     if (token) {
       useCredentials(token);
     }
   }
 
   function storeUserCredentials(token) {
-    $localStorage.Token = token;
+    localStorage.set("Token", token);
     useCredentials(token);
   }
 
