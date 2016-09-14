@@ -26,6 +26,10 @@ appServices.factory('localStorage', function ($filter, $window) {
             $window.localStorage[key] = JSON.stringify(value);
         },
 
+       remove: function (key) {
+            $window.localStorage.removeItem(key);
+        },
+
         //Remove all data from localStorage.
         removeAll: function () {
             $window.localStorage.clear();
