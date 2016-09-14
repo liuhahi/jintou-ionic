@@ -24,11 +24,11 @@ appControllers.controller('authCtrl', function ($scope, $mdToast, $mdDialog, $io
 
     $scope.signup = function () {
         AuthService.register($scope.user).then(function (msg) {
-            $state.go('app.login');
             var alertPopup = $ionicPopup.alert({
                 title: 'Register success!',
                 template: msg
             });
+            $state.go('user.login');
         }, function (errMsg) {
             var alertPopup = $ionicPopup.alert({
                 title: 'Register failed!',

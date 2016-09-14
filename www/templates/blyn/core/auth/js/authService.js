@@ -48,29 +48,31 @@
 
         return user;
 
-      }).then(function (newUser) {
-        $rootScope.current.user = newUser;
-        var tName = newUser.name;
-        if (newUser.name) {
-          tName = newUser.name;
-        } else {
-          tName = newUser.loginId;
-        }
-        return BSpace.create({
-          name: 'mySpace_' + tName,
-          alias: 'mySpace belong to ' + tName,
-          roles: ['admin'],
-          type: 'person.normal'
-        }).then(function (space) {
-          $rootScope.current.space = space;
-          return BApp.find('appEngine').then(function (app) {
-            $rootScope.current.app = app;
-            return null;
-          });
-        }).then(function () {
-          return newUser;
-        });
-      }).then(user => {
+      })
+    //   .then(function (newUser) {
+    //     $rootScope.current.user = newUser;
+    //     var tName = newUser.name;
+    //     if (newUser.name) {
+    //       tName = newUser.name;
+    //     } else {
+    //       tName = newUser.loginId;
+    //     }
+    //     return BSpace.create({
+    //       name: 'mySpace_' + tName,
+    //       alias: 'mySpace belong to ' + tName,
+    //       roles: ['admin'],
+    //       type: 'person.normal'
+    //     }).then(function (space) {
+    //       $rootScope.current.space = space;
+    //       return BApp.find('appEngine').then(function (app) {
+    //         $rootScope.current.app = app;
+    //         return null;
+    //       });
+    //     }).then(function () {
+    //       return newUser;
+    //     });
+    //   })
+      .then(user => {
         safeCb(callback)(null, user);
         return user;
       })
