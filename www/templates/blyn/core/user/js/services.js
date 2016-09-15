@@ -1,4 +1,4 @@
-appServices.factory('BUser', function ($q, $http) {
+appServices.factory('BUser', function ($q, $http, BApi) {
 
     var service = {};
     var current = {};
@@ -37,13 +37,13 @@ appServices.factory('BUser', function ($q, $http) {
     //return a promise
     var loadConfig = function (path) {
         return $http.get("templates/blyn/core/user/config.json").then(function (oConfig) {
-            config = oConfig;
+            config = oConfig.data;
         })
     }
 
     //return promise
     var loadMine = function () {
-        return BApi.user.me().then(function (user) {
+        return BApi.user.me().$promise.then(function (user) {
             current = user;
             return $q.when(user);
         });
@@ -51,7 +51,7 @@ appServices.factory('BUser', function ($q, $http) {
 
     //return promise
     var loadMySpaces = function () {
-        return BApi.space.getUserSpaces().then(function (spaces) {
+        return BApi.space.getUserSpaces().$promise.then(function (spaces) {
             current.spaces = spaces;
             return $q.when(spaces);
         })

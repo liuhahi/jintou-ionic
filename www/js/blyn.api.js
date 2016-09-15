@@ -6,9 +6,9 @@ function api($resource) {
     var api = {};
 
     // Base Url
-    api.baseUrl = 'http://localhost:9000';
+    api.baseUrl = '';
 
-    api.auth = $resource(api.baseUrl + '/api/auth/:id/:controller', {
+    api.auth = $resource(api.baseUrl + '/auth/:id/:controller', {
         id: '@_id'
     }, {
             local: {
@@ -47,11 +47,14 @@ function api($resource) {
             },
             getUserSpaces: {
                 method: 'GET',
+                isArray: true,
                 params: {
                     id: 'user'
                 }
             }
         }
     )
+
+    return api;
 
 }
