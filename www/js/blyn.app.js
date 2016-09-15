@@ -38,10 +38,10 @@ window.globalVariable = {
 };// End Global variable
 
 angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers', 'starter.services', 'ngResource', 'ngMaterial', 'ngMessages', 'ngCordova'])
-    .run(function ($ionicPlatform, $cordovaSQLite, $rootScope, $ionicHistory, $state, $mdDialog, $mdBottomSheet, AuthService) {
+    .run(function ($ionicPlatform, $cordovaSQLite, $rootScope, $ionicHistory, $state, $mdDialog, $mdBottomSheet, Auth) {
 
         $rootScope.$on('$stateChangeStart', function (event, next, nextParams, fromState) {
-            if (!AuthService.isAuthenticated()) {
+            if (!Auth.isAuthenticated()) {
                 console.log(next.name);
                 //    if (next.name !== 'outside.login' && next.name !== 'outside.register') {
                 if (next.name !== 'user.login' && next.name !== 'user.signup') {
