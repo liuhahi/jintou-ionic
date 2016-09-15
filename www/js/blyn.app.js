@@ -43,12 +43,14 @@ angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers
         $rootScope.$on('$stateChangeStart', function (event, next, nextParams, fromState) {
             if (!AuthService.isAuthenticated()) {
                 console.log(next.name);
-                //    if (next.name !== 'outside.login' && next.name !== 'outside.register') {
-                if (next.name !== 'user.login' && next.name !== 'user.signup') {
-                    event.preventDefault();
-                    $state.go('user.login');
+                if (!(next.name.indexOf('user.public') === 0)){
+                    //    if (next.name !== 'outside.login' && next.name !== 'outside.register') {
+                    if (next.name !== 'user.login' && next.name !== 'user.signup') {
+                        event.preventDefault();
+                        $state.go('user.login');
+                    }
                 }
-            }
+            } 
         });
 
         //Create database table of contracts by using sqlite database.
@@ -304,7 +306,7 @@ angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers
         $mdThemingProvider
             .theme('default')
             .primaryPalette('teal')
-            .accentPalette('red');
+            .accentPalette('blue');
 
         appPrimaryColor = $mdColorPalette[$mdThemingProvider._THEMES.default.colors.primary.name]["500"]; //Use for get base color of theme.
 

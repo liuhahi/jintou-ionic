@@ -1,88 +1,82 @@
 
- appServices.factory('AuthService', function ($q, $rootScope, BSpace, BApp, Util, User, $http,$location, API_ENDPOINT, localStorage) {
+appServices.factory('AuthService', function ($q, $rootScope, BApi, Util,BUser, $http, $location, API_ENDPOINT, localStorage) {
 
-    var isAuthenticated = false;
-    var authToken;
+  var isAuthenticated = false;
+  var authToken;
 
-    var safeCb = Util.safeCb;
-    var currentUser = {};
-    //   var userRoles = appConfig.userRoles || [];
-    $rootScope.current = $rootScope.current || {};
+  var safeCb = Util.safeCb;
+  var currentUser = {};
+  //   var userRoles = appConfig.userRoles || [];
+  $rootScope.current = $rootScope.current || {};
 
-    if (localStorage.get("Token") && $location.path() !== '/logout') {
-      currentUser = User.get();
-    }
+  if (localStorage.get("Token") && $location.path() !== '/logout') {
+    currentUser = BUser.getCurrent();
+  }
 
-    function loadUserCredentials() {
+  function loadUserCredentials() {
     //  var token = window.localStorage.getItem(LOCAL_TOKEN_KEY);
-       var token = localStorage.get("Token");
-      if (token) {
-        useCredentials(token);
-      }
-    }
-
-    function storeUserCredentials(token) {
-
-      localStorage.set("Token", token);
+    var token = localStorage.get("Token");
+    if (token) {
       useCredentials(token);
     }
+  }
 
-    function useCredentials(token) {
-      isAuthenticated = true;
-      authToken = token;
-    }
+  function storeUserCredentials(token) {
 
-    function destroyUserCredentials() {
-      authToken = undefined;
-      isAuthenticated = false;
-      // $http.defaults.headers.common.Authorization = undefined;
-      // window.localStorage.removeItem(LOCAL_TOKEN_KEY);
-    }
+    localStorage.set("Token", token);
+    useCredentials(token);
+  }
 
-    var register = function (userData, callback) {
-      return $http.post('/api/users', userData).then(function (res) {
-        storeUserCredentials(res.data.token);
-        currentUser = User.get();
+  function useCredentials(token) {
+    isAuthenticated = true;
+    authToken = token;
+  }
 
-        var user = currentUser.$promise;
+  function destroyUserCredentials() {
+    authToken = undefined;
+    isAuthenticated = false;
+    // $http.defaults.headers.common.Authorization = undefined;
+    // window.localStorage.removeItem(LOCAL_TOKEN_KEY);
+  }
 
-        return user;
+  /*
+  var register = function (userData, callback) {
+    return $http.post('/api/users', userData).then(function (res) {
+      storeUserCredentials(res.data.token);
+      currentUser = User.get();
 
-      })
-    //   .then(function (newUser) {
-    //     $rootScope.current.user = newUser;
-    //     var tName = newUser.name;
-    //     if (newUser.name) {
-    //       tName = newUser.name;
-    //     } else {
-    //       tName = newUser.loginId;
-    //     }
-    //     return BSpace.create({
-    //       name: 'mySpace_' + tName,
-    //       alias: 'mySpace belong to ' + tName,
-    //       roles: ['admin'],
-    //       type: 'person.normal'
-    //     }).then(function (space) {
-    //       $rootScope.current.space = space;
-    //       return BApp.find('appEngine').then(function (app) {
-    //         $rootScope.current.app = app;
-    //         return null;
-    //       });
-    //     }).then(function () {
-    //       return newUser;
-    //     });
-    //   })
-      .then(user => {
-        safeCb(callback)(null, user);
-        return user;
-      })
-        .catch(err => {
-          logout();
-          safeCb(callback)(err.data);
-          return $q.reject(err.data);
-        });
-    };
+      var user = currentUser.$promise;
 
+      return user;
+
+    })
+    .then(user => {
+      safeCb(callback)(null, user);
+      return user;
+    })
+      .catch(err => {
+        logout();
+        safeCb(callback)(err.data);
+        return $q.reject(err.data);
+      });
+  };*/
+
+  var register = function (userData, callback) {
+    return BApi.user.create(userData).$promise.then(function (res) {
+      storeUserCredentials(res.token);
+      return BUser.setCurrent();
+    }).then(function (user) {
+      safeCb(callback)(null, user);
+      return user;
+    })
+      .catch(function (err) {
+        logout();
+        safeCb(callback)(err.data);
+        return $q.reject(err.data);
+      });
+  }
+
+  /*
     var login = function (loginUser, callback) {
       return $http.post('http://localhost:8100/auth/local', {
 
@@ -97,25 +91,6 @@
 
           return user;
         })
-        // .then(user => {
-        //   //set current user
-        //   currentUser = user;
-        //   $rootScope.current.user = user;
-        //   return BSpace.getUserSpaces({
-        //     userId: user._id,
-        //     type: 'space.person.normal'
-        //   }).then(spaces => {
-        //     //set current space
-        //     $rootScope.current.space = spaces[0];
-        //     return BApp.find('appEngine').then(app => {
-        //       //set current app
-        //       $rootScope.current.app = app;
-        //       return null;
-        //     });
-        //   }).then(function () {
-        //     return user;
-        //   });
-        // })
         .then(user => {
           safeCb(callback)(null, user);
           return user;
@@ -125,21 +100,37 @@
           safeCb(callback)(err.data);
           return $q.reject(err.data);
         });
-    };
+    };*/
 
-    var logout = function () {
-      destroyUserCredentials();
-    };
+  var login = function (loginData, callback) {
+    return BApi.auth.local(loginData).$promise
+      .then(function (res) {
+        storeUserCredentials(res.token);
+        return BUser.setCurrent();
+      }).then(function (user) {
+        safeCb(callback)(null, user);
+        return user;
+      })
+      .catch(function (err) {
+        logout();
+        safeCb(callback)(err.data);
+        return $q.reject(err.data);
+      });
+  }
 
-    loadUserCredentials();
+  var logout = function () {
+    destroyUserCredentials();
+  };
 
-    return {
-      login: login,
-      register: register,
-      logout: logout,
-      isAuthenticated: function () { return isAuthenticated; },
-      currentUser: function () {return currentUser;},
-    };
-  })
+  loadUserCredentials();
+
+  return {
+    login: login,
+    register: register,
+    logout: logout,
+    isAuthenticated: function () { return isAuthenticated; },
+    currentUser: function () { return currentUser; },
+  };
+})
 
 

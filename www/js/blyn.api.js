@@ -4,11 +4,11 @@ appServices.factory('BApi', api);
 function api($resource) {
 
     var api = {};
-    
-    // Base Url
-    api.baseUrl = 'http://localhost:9000';
 
-    api.auth = $resource(api.baseUrl + '/api/auth/:id/:controller', {
+    // Base Url
+    api.baseUrl = '';
+
+    api.auth = $resource(api.baseUrl + '/auth/:id/:controller', {
         id: '@_id'
     }, {
             local: {
@@ -38,4 +38,23 @@ function api($resource) {
                 }
             }
         });
+    
+    api.space = $resource(api.baseUrl + 'api/spaces/:id/:controller', {
+        id: '@_id'
+    }, {
+            create: {
+                method: 'POST'
+            },
+            getUserSpaces: {
+                method: 'GET',
+                isArray: true,
+                params: {
+                    id: 'user'
+                }
+            }
+        }
+    )
+
+    return api;
+
 }
