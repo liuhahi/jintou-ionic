@@ -37,8 +37,8 @@ window.globalVariable = {
     adMob: "your_api_key" //Use for AdMob API clientID.
 };// End Global variable
 
-angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers', 'starter.services', 'ngResource', 'ngMaterial', 'ngMessages', 'ngCordova'])
-    .run(function ($ionicPlatform, $cordovaSQLite, $rootScope, $ionicHistory, $state, $mdDialog, $mdBottomSheet, AuthService) {
+angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers', 'starter.services', 'ngResource', 'ngMaterial', 'ngMessages', 'ngCordova','pascalprecht.translate'])
+    .run(function ($ionicPlatform, $cordovaSQLite, $rootScope, $ionicHistory, $state, $mdDialog, $mdBottomSheet, AuthService, $translate) {
 
         $rootScope.$on('$stateChangeStart', function (event, next, nextParams, fromState) {
             if (!AuthService.isAuthenticated()) {
@@ -248,7 +248,15 @@ angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
-
+            //check language
+            if(typeof navigator.globalization !== "undefined"){
+                console.log(typeof navigator.globalization);
+                navigator.globalization.getPreferredLanguage(function(language){
+                    // alert(language.value);
+                    $translate.use((language.value).split("-")[0]);
+                    
+                }, null);
+            }
             //initialSQLite();
             initialRootScope();
 
@@ -262,8 +270,15 @@ angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers
         });
 
     })
-    .config(function ($ionicConfigProvider, $stateProvider, $urlRouterProvider, $mdThemingProvider, $mdColorPalette, $mdIconProvider) {
-
+    .config(function ($ionicConfigProvider, $stateProvider, $urlRouterProvider, $mdThemingProvider, $mdColorPalette, $mdIconProvider,$translateProvider) {
+        $translateProvider.translations("ch", {
+            my_platform: "我的平台"
+        });
+        $translateProvider.translations("en", {
+            my_platform: "My platform"
+        });
+        $translateProvider.preferredLanguage("en");
+        $translateProvider.fallbackLanguage("en");
         // Use for change ionic spinner to android pattern.
         $ionicConfigProvider.spinner.icon("android");
         $ionicConfigProvider.views.swipeBackEnabled(false);
