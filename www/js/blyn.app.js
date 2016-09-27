@@ -328,7 +328,7 @@ angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers
         $stateProvider
             .state('user', {
                 url: "/user",
-                //abstract: true,
+                cache: false,
                 templateUrl: "templates/blyn/core/user/html/user_menu.html",
                 controller: 'userMenuCtrl'
             })
@@ -338,7 +338,7 @@ angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers
                     spaceId: null
                 },
                 //abstract: true,
-                templateUrl: "templates/blyn/core/space/html/menu.html",
+                templateUrl: "templates/blyn/core/space/html/userSpace.html",
                 controller: 'spaceCtrl',
                 resolve: {
                     currentSpace: function ($stateParams, $q, spaceService) {

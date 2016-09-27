@@ -67,9 +67,10 @@
                     </md-list-item>
                     <md-subheader class="md-warn">机构</md-subheader>
                     <ion-list>
-                        <ion-item ng-repeat="item in userSpaces">
-                            Hello, {{item}}!
-                        </ion-item>
+                        <a class=" item item-icon-right"  ng-repeat="space in userSpaces" ng-click = "selectSpace(space)" >
+                            {{space.name}}
+                            <i class="icon icon-chevron-right icon-accessory"></i>
+                        </a>
                     </ion-list>
                 </div>
             </div>
@@ -101,9 +102,10 @@
                     </md-list-item>
                     <md-subheader class="md-warn">机构</md-subheader>
                     <ion-list>
-                        <ion-item ng-repeat="item in userSpaces">
-                            Hello, {{item}}!
-                        </ion-item>
+                        <a class=" item item-icon-right"  ng-repeat="space in userSpaces" ng-click = "selectSpace(space)" >
+                            {{space.name}}
+                            <i class="icon icon-chevron-right icon-accessory"></i>
+                        </a>
                     </ion-list>
                 </div>
             </md-list>
