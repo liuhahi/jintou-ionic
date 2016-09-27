@@ -1,8 +1,8 @@
 // Controller of menu toggle.
 // Learn more about Sidenav directive of angular material
 // https://material.angularjs.org/latest/#/demo/material.components.sidenav
-appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $mdSidenav, $log, $ionicHistory, $state, $ionicPlatform, $mdDialog, $mdBottomSheet, $mdMenu, $mdSelect) {
-    
+appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $mdSidenav, $log, $ionicHistory, $state, $ionicPlatform, $mdDialog, $mdBottomSheet, $mdMenu, $mdSelect, AuthService, BUser, BApi) {
+  //  BUser.loadMySpaces();
     $scope.toggleLeft = buildToggler('left');
 
     // buildToggler is for create menu toggle.
@@ -24,8 +24,8 @@ appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $
             $mdSidenav('left').close();
             if ($ionicHistory.currentStateName() != stateName) {
                 $ionicHistory.nextViewOptions({
-                    disableAnimate: true,
-                    disableBack: true
+                    // disableAnimate: true,
+                    // disableBack: true
                 });
                 $state.go(stateName);
             }
@@ -35,8 +35,46 @@ appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $
     //closeSideNav is for close side navigation
     //It will use with event on-swipe-left="closeSideNav()" on-drag-left="closeSideNav()"
     //When user swipe or drag md-sidenav to left side
-    $scope.closeSideNav = function(){
+    $scope.closeSideNav = function () {
         $mdSidenav('left').close();
+    };
+    $scope.logout = function () {
+        AuthService.logout();
+        $scope.isAuthenticated = false;
+        $scope.closeSideNav();
+
+        $timeout(function () {
+         //   $ionicLoading.hide();
+            $ionicHistory.clearCache();
+            $ionicHistory.clearHistory();
+            $ionicHistory.nextViewOptions({
+                disableBack: true,
+                historyRoot: true
+            });
+            $state.go('user.login');
+          
+
+        }, 30);
+    };
+
+    $scope.isAuthenticated = AuthService.isAuthenticated;
+    $scope.$on('event:login', function (e) {
+        alert('login event');
+        $scope.isAuthenticated = true;
+
+    });
+    $scope.$on('event:logout', function (e) {
+         alert('logout event');
+        $scope.isAuthenticated = false;
+    });
+
+    $scope.userSpaces = getUserSpaces();
+
+    function getUserSpaces() {
+        var me = BUser.getCurrent();
+        
+        //alert("me has " + me.spaces.length + " space");
+        return me.spaces;
     };
     //End closeSideNav
 
@@ -65,30 +103,30 @@ appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $
     //
     //  Learn more at : http://ionicframework.com/docs/api/service/$ionicPlatform/#registerBackButtonAction
 
-    $ionicPlatform.registerBackButtonAction(function(){
+    $ionicPlatform.registerBackButtonAction(function () {
 
-        if($mdSidenav("left").isOpen()){
+        if ($mdSidenav("left").isOpen()) {
             //If side navigation is open it will close and then return
             $mdSidenav('left').close();
         }
-        else if(jQuery('md-bottom-sheet').length > 0 ) {
+        else if (jQuery('md-bottom-sheet').length > 0) {
             //If bottom sheet is open it will close and then return
             $mdBottomSheet.cancel();
         }
-        else if(jQuery('[id^=dialog]').length > 0 ){
+        else if (jQuery('[id^=dialog]').length > 0) {
             //If popup dialog is open it will close and then return
             $mdDialog.cancel();
         }
-        else if(jQuery('md-menu-content').length > 0 ){
+        else if (jQuery('md-menu-content').length > 0) {
             //If md-menu is open it will close and then return
             $mdMenu.hide();
         }
-        else if(jQuery('md-select-menu').length > 0 ){
+        else if (jQuery('md-select-menu').length > 0) {
             //If md-select is open it will close and then return
             $mdSelect.hide();
         }
 
-        else{
+        else {
 
             // If control :
             // side navigation,
@@ -102,10 +140,10 @@ appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $
             // Check for the current state that not have previous state.
             // It will show $mdDialog to ask for Confirmation to close the application.
 
-            if($ionicHistory.backView() == null){
+            if ($ionicHistory.backView() == null) {
 
                 //Check is popup dialog is not open.
-                if(jQuery('[id^=dialog]').length == 0 ) {
+                if (jQuery('[id^=dialog]').length == 0) {
 
                     // mdDialog for show $mdDialog to ask for
                     // Confirmation to close the application.
@@ -131,23 +169,23 @@ appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $
                     }); //End mdDialog
                 }
             }
-            else{
+            else {
                 //Go to the view of lasted state.
                 $ionicHistory.goBack();
             }
         }
 
-    },100);
+    }, 100);
     //End of $ionicPlatform.registerBackButtonAction
 
 }); // End of menu toggle controller.
 
 // Controller of dashboard.
-appControllers.controller('publicCtrl', function ($scope, $timeout, $state,$stateParams, $ionicHistory) {
+appControllers.controller('publicCtrl', function ($scope, $timeout, $state, $stateParams, $ionicHistory) {
 
     //$scope.isAnimated is the variable that use for receive object data from state params.
     //For enable/disable row animation.
-    $scope.isAnimated =  $stateParams.isAnimated;
+    $scope.isAnimated = $stateParams.isAnimated;
 
     // navigateTo is for navigate to other page 
     // by using targetPage to be the destination state. 
@@ -162,7 +200,7 @@ appControllers.controller('publicCtrl', function ($scope, $timeout, $state,$stat
                 });
                 $state.go(stateName);
             }
-        }, ($scope.isAnimated  ? 300 : 0));
+        }, ($scope.isAnimated ? 300 : 0));
     }; // End of navigateTo.
 
     // goToSetting is for navigate to Dashboard Setting page
