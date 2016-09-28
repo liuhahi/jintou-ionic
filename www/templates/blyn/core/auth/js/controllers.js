@@ -10,8 +10,7 @@ appControllers.controller('authCtrl', function ($scope, $mdToast, $mdDialog, $io
         //    alert("authCtrl login: " + $scope.user.loginId + ", " + $scope.user.password);
 
         AuthService.login($scope.user).then(function (data) {
-            //  $state.go('myspaces');
-            alert("success");
+            $state.go('user.space', {}, {reload:true});            
 
         }, function (errMsg) {
             var alertPopup = $ionicPopup.alert({

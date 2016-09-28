@@ -1,8 +1,8 @@
 // Controller of menu toggle.
 // Learn more about Sidenav directive of angular material
 // https://material.angularjs.org/latest/#/demo/material.components.sidenav
-appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $mdSidenav, $log, $ionicHistory, $state, $ionicPlatform, $mdDialog, $mdBottomSheet, $mdMenu, $mdSelect, AuthService, BUser, BApi) {
-  //  BUser.loadMySpaces();
+appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $mdSidenav,$ionicSideMenuDelegate, $log, $ionicHistory, $state, $ionicPlatform, $mdDialog, $mdBottomSheet, $mdMenu, $mdSelect, AuthService, BUser, BApi) {
+    //  BUser.loadMySpaces();
     $scope.toggleLeft = buildToggler('left');
 
     // buildToggler is for create menu toggle.
@@ -44,7 +44,7 @@ appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $
         $scope.closeSideNav();
 
         $timeout(function () {
-         //   $ionicLoading.hide();
+            //   $ionicLoading.hide();
             $ionicHistory.clearCache();
             $ionicHistory.clearHistory();
             $ionicHistory.nextViewOptions({
@@ -52,19 +52,37 @@ appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $
                 historyRoot: true
             });
             $state.go('user.login');
-          
+
 
         }, 30);
     };
 
+    // $scope.$watch(function () {
+    //     return $ionicSideMenuDelegate.getOpenRatio();
+    // },
+    //     function (ratio) {
+    //         if (ratio === 1) {
+    //             console.log('ratio is true');
+    //             $scope.isActive = true;
+    //         } else {
+    //             $scope.isActive = false;
+    //             console.log('ratio is false');
+    //         }
+    //     });
+
+    $scope.selectSpace = function (toSpace) {        
+        var toParam = { space: toSpace };
+        $state.go('user.space', toParam);
+    }
+
     $scope.isAuthenticated = AuthService.isAuthenticated;
     $scope.$on('event:login', function (e) {
-        alert('login event');
+      
         $scope.isAuthenticated = true;
-
+        $scope.userSpaces = getUserSpaces();
     });
     $scope.$on('event:logout', function (e) {
-         alert('logout event');
+        
         $scope.isAuthenticated = false;
     });
 
@@ -72,8 +90,6 @@ appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $
 
     function getUserSpaces() {
         var me = BUser.getCurrent();
-        
-        //alert("me has " + me.spaces.length + " space");
         return me.spaces;
     };
     //End closeSideNav
@@ -217,3 +233,4 @@ appControllers.controller('userDashboardCtrl', function ($scope) {
 appControllers.controller('userProfileCtrl', function ($scope) {
 
 });
+ 
