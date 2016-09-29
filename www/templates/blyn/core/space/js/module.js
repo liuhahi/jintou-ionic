@@ -2,8 +2,8 @@ angular.module('starter')
     .config(function ($urlRouterProvider,$stateProvider) {
         
         $urlRouterProvider.when(
-            '/user/space',
-            '/user/space/home');
+            '#/user/space',
+            '#/user/space/home');
 
         $stateProvider
             .state('user.space.home', {
