@@ -24,8 +24,8 @@ appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $
             $mdSidenav('left').close();
             if ($ionicHistory.currentStateName() != stateName) {
                 $ionicHistory.nextViewOptions({
-                    disableAnimate: true,
-                    disableBack: true
+                    // disableAnimate: true,
+                    // disableBack: true
                 });
                 $state.go(stateName);
             }
