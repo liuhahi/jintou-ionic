@@ -1,7 +1,7 @@
 // Controller of menu toggle.
 // Learn more about Sidenav directive of angular material
 // https://material.angularjs.org/latest/#/demo/material.components.sidenav
-appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $mdSidenav,$ionicSideMenuDelegate, $log, $ionicHistory, $state, $ionicPlatform, $mdDialog, $mdBottomSheet, $mdMenu, $mdSelect, AuthService, BUser, BApi) {
+appControllers.controller('publicMenuCtrl', function ($scope, $timeout, $mdUtil, $mdSidenav,$ionicSideMenuDelegate, $log, $ionicHistory, $state, $ionicPlatform, $mdDialog, $mdBottomSheet, $mdMenu, $mdSelect, AuthService, BUser, BApi) {
     //  BUser.loadMySpaces();
     $scope.toggleLeft = buildToggler('left');
 
@@ -51,7 +51,9 @@ appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $
                 disableBack: true,
                 historyRoot: true
             });
-            $state.go('public.dashboard');
+            $state.go('user.login');
+
+
         }, 30);
     };
 
@@ -68,28 +70,6 @@ appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $
     //         }
     //     });
 
-    $scope.selectSpace = function (toSpace) {        
-        var toParam = { space: toSpace };
-        $state.go('user.space', toParam);
-    }
-
-    $scope.isAuthenticated = AuthService.isAuthenticated;
-    $scope.$on('event:login', function (e) {
-      
-        $scope.isAuthenticated = true;
-        $scope.userSpaces = getUserSpaces();
-    });
-    $scope.$on('event:logout', function (e) {
-        
-        $scope.isAuthenticated = false;
-    });
-
-    $scope.userSpaces = getUserSpaces();
-
-    function getUserSpaces() {
-        var me = BUser.getCurrent();
-        return me.spaces;
-    };
     //End closeSideNav
 
     //  $ionicPlatform.registerBackButtonAction(callback, priority, [actionId])
@@ -194,11 +174,34 @@ appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $
 
 }); // End of menu toggle controller.
 
-appControllers.controller('userDashboardCtrl', function ($scope) {
+// Controller of dashboard.
+appControllers.controller('publicDashboardCtrl', function ($scope, $timeout, $state, $stateParams, $ionicHistory) {
 
-});
+    //$scope.isAnimated is the variable that use for receive object data from state params.
+    //For enable/disable row animation.
+    $scope.isAnimated = $stateParams.isAnimated;
 
-appControllers.controller('userProfileCtrl', function ($scope) {
+    // navigateTo is for navigate to other page 
+    // by using targetPage to be the destination state. 
+    // Parameter :  
+    // stateNames = target state to go.
+    $scope.navigateTo = function (stateName) {
+        $timeout(function () {
+            if ($ionicHistory.currentStateName() != stateName) {
+                $ionicHistory.nextViewOptions({
+                    disableAnimate: false,
+                    disableBack: true
+                });
+                $state.go(stateName);
+            }
+        }, ($scope.isAnimated ? 300 : 0));
+    }; // End of navigateTo.
 
-});
+    // goToSetting is for navigate to Dashboard Setting page
+    $scope.goToSetting = function () {
+        $state.go("app.dashboardSetting");
+    };// End goToSetting.
+
+}); // End of dashboard controller.
+
  
