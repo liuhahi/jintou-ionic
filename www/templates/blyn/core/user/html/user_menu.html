@@ -36,25 +36,6 @@
             <!--It will disable animation to better performance on android.-->
             <!--list section-->
             <div ng-if="isAndroid" class="menu-list">
-                <div ng-if="!isAuthenticated">
-                    <md-subheader class="md-warn">会员</md-subheader>
-                    <div class="row menu-item" ng-click="navigateTo('user.login')">
-                        <div class="col-33">
-                            <i class="fa fa-sign-in"></i>
-                        </div>
-                        <div class="col-66">
-                            <span>登录</span>
-                        </div>
-                    </div>
-                    <div class="row menu-item" ng-click="navigateTo('user.signup')">
-                        <div class="col-33">
-                            <i class="fa fa-user-plus"></i>
-                        </div>
-                        <div class="col-66">
-                            <span>注册</span>
-                        </div>
-                    </div>
-                </div>
                 <div ng-if="isAuthenticated">
                     <md-subheader class="md-warn">会员</md-subheader>
                     <md-list-item class="menu-list-item" ng-click=" logout()">
@@ -79,17 +60,6 @@
             <!--If device is not Android application will present below code.-->
             <!--It will show animation when selecting row.-->
             <md-list ng-if="!isAndroid">
-                <div ng-if="!isAuthenticated">
-                    <md-subheader class="md-warn">会员</md-subheader>
-                    <md-list-item class="menu-list-item" ng-click="navigateTo('user.login')">
-                        <i class="fa fa-sign-in"></i>
-                        <span>登录</span>
-                    </md-list-item>
-                    <md-list-item class="menu-list-item" ng-click="navigateTo('user.signup')">
-                        <i class="fa fa-user-plus"></i>
-                        <span>注册</span>
-                    </md-list-item>
-                </div>
                 <div ng-if="isAuthenticated">
                     <md-subheader class="md-warn">会员</md-subheader>
                     <md-list-item class="menu-list-item" ng-click=" logout()">
