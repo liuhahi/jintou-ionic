@@ -341,13 +341,13 @@ angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers
         $stateProvider
             .state('public', {
                 url: "/public",
-                //cache: false,
+                cache: false,
                 templateUrl: "templates/blyn/core/public/html/public_menu.html",
                 controller: 'publicMenuCtrl'
             })
             .state('user', {
                 url: "/user",
-                //cache: false,
+                cache: false,
                 templateUrl: "templates/blyn/core/user/html/user_menu.html",
                 controller: 'userMenuCtrl'
             })
