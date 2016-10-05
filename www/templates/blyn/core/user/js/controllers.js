@@ -201,4 +201,12 @@ appControllers.controller('userDashboardCtrl', function ($scope) {
 appControllers.controller('userProfileCtrl', function ($scope) {
 
 });
+
+appControllers.controller('userFinanceCtrl', function ($scope) {
+
+});
+
+appControllers.controller('userTradeCtrl', function ($scope) {
+
+});
  
