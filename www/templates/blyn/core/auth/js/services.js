@@ -1,7 +1,7 @@
 
 appServices.factory('AuthService', function ($q, $rootScope, BApi, Util,BUser, $http, $location, API_ENDPOINT, localStorage) {
 
-  this.isAuthenticated = false;
+  var isAuthenticated = false;
   var authToken;
 
   var safeCb = Util.safeCb;
@@ -27,13 +27,14 @@ appServices.factory('AuthService', function ($q, $rootScope, BApi, Util,BUser, $
   }
 
   function useCredentials(token) {
-    this.isAuthenticated = true;
+    isAuthenticated = true;
     authToken = token;
   }
 
   function destroyUserCredentials() {
+    localStorage.set("Token", undefined);
     authToken = undefined;
-    this.isAuthenticated = false;
+    isAuthenticated = false;
     // $http.defaults.headers.common.Authorization = undefined;
     // window.localStorage.removeItem(LOCAL_TOKEN_KEY);
   }
@@ -83,7 +84,7 @@ appServices.factory('AuthService', function ($q, $rootScope, BApi, Util,BUser, $
     login: login,
     register: register,
     logout: logout,
-    isAuthenticated: function () { return this.isAuthenticated; },
+    isAuthenticated: function () { loadUserCredentials(); return isAuthenticated; },
     currentUser: function () { return currentUser; },
   };
 })

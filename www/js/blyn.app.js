@@ -55,7 +55,7 @@ angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers
         $rootScope.$on('$stateChangeStart', function (event, next, nextParams, fromState) {
             console.log(next.name);
             if (!AuthService.isAuthenticated()) {
-                if (!(next.name.indexOf('user.') === 0)) {
+                if (next.name.indexOf('user.') === 0 && next.name !== 'public.login') {
                     event.preventDefault();
                     $state.go('public.login');
                 }
