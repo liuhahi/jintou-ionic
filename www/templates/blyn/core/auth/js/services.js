@@ -33,7 +33,7 @@ appServices.factory('AuthService', function ($q, $rootScope, BApi, Util,BUser, $
 
   function destroyUserCredentials() {
     localStorage.set("Token", null);
-    authToken = undefined;
+    authToken = null;
     isAuthenticated = false;
     // $http.defaults.headers.common.Authorization = undefined;
     // window.localStorage.removeItem(LOCAL_TOKEN_KEY);
