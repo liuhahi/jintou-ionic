@@ -30,5 +30,40 @@ angular.module('starter')
                     }
                 }
             })
-            
+             .state('user.trade', {
+                url: "/trade",
+                params: {
+                    isAnimated: false
+                },
+                views: {
+                    'menuContent': {
+                        templateUrl: "templates/blyn/core/user/html/trade.html",
+                        controller: 'userTradeCtrl'
+                    }
+                }
+            })
+              .state('user.finance', {
+                url: "/finance",
+                params: {
+                    isAnimated: false
+                },
+                views: {
+                    'menuContent': {
+                        templateUrl: "templates/blyn/core/user/html/finance.html",
+                        controller: 'userFinanceCtrl'
+                    }
+                }
+            })
+              .state('user.favorite', {
+                url: "/favorite",
+                params: {
+                    isAnimated: false
+                },
+                views: {
+                    'menuContent': {
+                        templateUrl: "templates/blyn/core/user/html/favorite.html",
+                        controller: 'userFavoriteCtrl'
+                    }
+                }
+            })
     })
