@@ -14,7 +14,7 @@ angular.module('starter')
                 views: {
                     'menuContent': {
                         templateUrl: "templates/blyn/core/user/html/user_dashboard.html",
-                        controller: 'userDashboardCtrl'
+                        controller: 'userDashboardCtrl as vm'
                     }
                 }
             })
