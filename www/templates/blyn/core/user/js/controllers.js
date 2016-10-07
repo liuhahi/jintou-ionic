@@ -214,3 +214,11 @@
     });
 })();
 
+appControllers.controller('userFinanceCtrl', function ($scope) {
+
+});
+
+appControllers.controller('userTradeCtrl', function ($scope) {
+
+});
+

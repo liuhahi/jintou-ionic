@@ -61,8 +61,8 @@ angular.module('starter')
                 },
                 views: {
                     'menuContent': {
-                        templateUrl: "templates/blyn/core/user/html/favorite.html",
-                        controller: 'userFavoriteCtrl'
+                        templateUrl: "templates/blyn/core/user/html/trade.html",
+                        controller: 'userTradeCtrl'
                     }
                 }
             })
