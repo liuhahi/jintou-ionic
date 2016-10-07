@@ -201,25 +201,20 @@
 
     appControllers.controller('userProfileCtrl', function ($scope) {
 
-           console.log("user Profile Ctrl");
+           this.me = "My Profile";
     });
-    appControllers.controller('userFinanceCtrl', function ($scope) {
-        console.log("user Finance Ctrl");
-    });
-
-    appControllers.controller('userTradeCtrl', function ($scope) {
-        console.log("user Trade Ctrl");
-    });
+   
+   
     appControllers.controller('userFavoriteCtrl', function ($scope) {
-        console.log("user favorite Ctrl");
+        this.me = "My Favorite";
     });
 
     appControllers.controller('userFinanceCtrl', function ($scope) {
-
+          this.me = "My Finance";
     });
 
     appControllers.controller('userTradeCtrl', function ($scope) {
-
+        this.me = "My Trade";
     });
 
 
