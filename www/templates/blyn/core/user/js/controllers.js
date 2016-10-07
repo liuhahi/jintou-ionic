@@ -201,6 +201,7 @@
 
     appControllers.controller('userProfileCtrl', function ($scope) {
 
+           console.log("user Profile Ctrl");
     });
     appControllers.controller('userFinanceCtrl', function ($scope) {
         console.log("user Finance Ctrl");
@@ -209,16 +210,19 @@
     appControllers.controller('userTradeCtrl', function ($scope) {
         console.log("user Trade Ctrl");
     });
-      appControllers.controller('userFavoriteCtrl', function ($scope) {
+    appControllers.controller('userFavoriteCtrl', function ($scope) {
         console.log("user favorite Ctrl");
     });
+
+    appControllers.controller('userFinanceCtrl', function ($scope) {
+
+    });
+
+    appControllers.controller('userTradeCtrl', function ($scope) {
+
+    });
+
+
 })();
 
-appControllers.controller('userFinanceCtrl', function ($scope) {
-
-});
-
-appControllers.controller('userTradeCtrl', function ($scope) {
-
-});
 
