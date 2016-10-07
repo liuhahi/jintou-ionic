@@ -291,6 +291,7 @@ angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers
         // Use for change ionic spinner to android pattern.
         $ionicConfigProvider.spinner.icon("android");
         $ionicConfigProvider.views.swipeBackEnabled(false);
+        $ionicConfigProvider.backButton.previousTitleText(false).text('');
 
         // mdIconProvider is function of Angular Material.
         // It use for reference .SVG file and improve performance loading.

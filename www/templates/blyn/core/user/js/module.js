@@ -14,7 +14,7 @@ angular.module('starter')
                 views: {
                     'menuContent': {
                         templateUrl: "templates/blyn/core/user/html/user_dashboard.html",
-                        controller: 'userDashboardCtrl'
+                        controller: 'userDashboardCtrl as vm'
                     }
                 }
             })
@@ -26,7 +26,7 @@ angular.module('starter')
                 views: {
                     'menuContent': {
                         templateUrl: "templates/blyn/core/user/html/profile.html",
-                        controller: 'userProfileCtrl'
+                        controller: 'userProfileCtrl as vm'
                     }
                 }
             })
@@ -38,7 +38,7 @@ angular.module('starter')
                 views: {
                     'menuContent': {
                         templateUrl: "templates/blyn/core/user/html/trade.html",
-                        controller: 'userTradeCtrl'
+                        controller: 'userTradeCtrl as vm'
                     }
                 }
             })
@@ -50,7 +50,7 @@ angular.module('starter')
                 views: {
                     'menuContent': {
                         templateUrl: "templates/blyn/core/user/html/finance.html",
-                        controller: 'userFinanceCtrl'
+                        controller: 'userFinanceCtrl as vm'
                     }
                 }
             })
@@ -61,8 +61,8 @@ angular.module('starter')
                 },
                 views: {
                     'menuContent': {
-                        templateUrl: "templates/blyn/core/user/html/trade.html",
-                        controller: 'userTradeCtrl'
+                        templateUrl: "templates/blyn/core/user/html/favorite.html",
+                        controller: 'userFavoriteCtrl as vm'
                     }
                 }
             })
