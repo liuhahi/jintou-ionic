@@ -5,47 +5,7 @@ angular.module('starter')
             '#/user',
             '#/user/dashboard');
 
-        $urlRouterProvider.when(
-            '#/user/public',
-            '#/user/public/dashboard');
-
         $stateProvider
-            .state('user.public', {
-                url: "/public",
-                params: {
-                    isAnimated: false
-                },
-                views: {
-                    'menuContent': {
-                        templateUrl: "templates/blyn/core/user/html/public.html",
-                        controller: 'publicCtrl'
-                    }
-                }
-            })
-            .state('user.login', {
-                url: "/login",
-                params: {
-                    isAnimated: false
-                },
-                views: {
-                    'menuContent': {
-                        templateUrl: "templates/blyn/core/user/html/login.html",
-                        controller: 'authCtrl'
-                    }
-                }
-            })
-            .state('user.signup', {
-                url: "/signup",
-                params: {
-                    isAnimated: false
-                },
-                views: {
-                    'menuContent': {
-                        templateUrl: "templates/blyn/core/user/html/signup.html",
-                        controller: 'authCtrl'
-                    }
-                }
-            })
             .state('user.dashboard', {
                 url: "/dashboard",
                 params: {
@@ -54,7 +14,7 @@ angular.module('starter')
                 views: {
                     'menuContent': {
                         templateUrl: "templates/blyn/core/user/html/user_dashboard.html",
-                        controller: 'userDashboardCtrl'
+                        controller: 'userDashboardCtrl as vm'
                     }
                 }
             })
@@ -66,7 +26,43 @@ angular.module('starter')
                 views: {
                     'menuContent': {
                         templateUrl: "templates/blyn/core/user/html/profile.html",
-                        controller: 'userProfileCtrl'
+                        controller: 'userProfileCtrl as vm'
+                    }
+                }
+            })
+             .state('user.trade', {
+                url: "/trade",
+                params: {
+                    isAnimated: false
+                },
+                views: {
+                    'menuContent': {
+                        templateUrl: "templates/blyn/core/user/html/trade.html",
+                        controller: 'userTradeCtrl as vm'
+                    }
+                }
+            })
+              .state('user.finance', {
+                url: "/finance",
+                params: {
+                    isAnimated: false
+                },
+                views: {
+                    'menuContent': {
+                        templateUrl: "templates/blyn/core/user/html/finance.html",
+                        controller: 'userFinanceCtrl as vm'
+                    }
+                }
+            })
+              .state('user.favorite', {
+                url: "/favorite",
+                params: {
+                    isAnimated: false
+                },
+                views: {
+                    'menuContent': {
+                        templateUrl: "templates/blyn/core/user/html/favorite.html",
+                        controller: 'userFavoriteCtrl as vm'
                     }
                 }
             })

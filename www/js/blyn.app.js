@@ -21,8 +21,8 @@ window.globalVariable = {
         wordpressColor: "#0087BE"
     },// End custom color style variable
     startPage: {
-        url: "/user/public",//Url of start page.
-        state: "user.public"//State name of start page.
+        url: "/",//Url of start page.
+        state: ""//State name of start page.
     },
     message: {
         errorMessage: "Technical error please try again later." //Default error message.
@@ -37,20 +37,29 @@ window.globalVariable = {
     adMob: "your_api_key" //Use for AdMob API clientID.
 };// End Global variable
 
-angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers', 'starter.services', 'ngResource', 'ngMaterial', 'ngMessages', 'ngCordova','pascalprecht.translate'])
-    .run(function ($ionicPlatform, $cordovaSQLite, $rootScope, $ionicHistory, $state, $mdDialog, $mdBottomSheet, AuthService, $translate) {
+angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers', 'starter.services', 'ngResource', 'ngMaterial', 'ngMessages', 'ngCordova', 'pascalprecht.translate'])
+    .run(function ($ionicPlatform, $cordovaSQLite, $rootScope, $ionicHistory, $location, $state, $mdDialog, $mdBottomSheet, AuthService, $translate) {
+
+        $rootScope.$on('$locationChangeStart', function (event, newUrl, oldUrl) {
+            if (!$location.path() || $location.path() === '' || $location.path() === '/') {
+                if (AuthService.isAuthenticated()) {
+                    $state.go('user.dashboard');
+                } else {
+                    $state.go('public.dashboard');
+                }
+            }
+            //console.log($location.path());
+            //console.log(newUrl);
+        });
 
         $rootScope.$on('$stateChangeStart', function (event, next, nextParams, fromState) {
+            //console.log(next.name);
             if (!AuthService.isAuthenticated()) {
-                console.log(next.name);
-                if (!(next.name.indexOf('user.public') === 0)){
-                    //    if (next.name !== 'outside.login' && next.name !== 'outside.register') {
-                    if (next.name !== 'user.login' && next.name !== 'user.signup') {
-                        event.preventDefault();
-                        $state.go('user.login');
-                    }
+                if (next.name.indexOf('user.') === 0 && next.name !== 'public.login') {
+                    event.preventDefault();
+                    $state.go('public.login');
                 }
-            } 
+            }
         });
 
         //Create database table of contracts by using sqlite database.
@@ -249,12 +258,12 @@ angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers
                 StatusBar.styleDefault();
             }
             //check language
-            if(typeof navigator.globalization !== "undefined"){
+            if (typeof navigator.globalization !== "undefined") {
                 console.log(typeof navigator.globalization);
-                navigator.globalization.getPreferredLanguage(function(language){
+                navigator.globalization.getPreferredLanguage(function (language) {
                     // alert(language.value);
                     $translate.use((language.value).split("-")[0]);
-                    
+
                 }, null);
             }
             //initialSQLite();
@@ -270,7 +279,7 @@ angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers
         });
 
     })
-    .config(function ($ionicConfigProvider, $stateProvider, $urlRouterProvider, $mdThemingProvider, $mdColorPalette, $mdIconProvider,$translateProvider) {
+    .config(function ($ionicConfigProvider, $stateProvider, $urlRouterProvider, $mdThemingProvider, $mdColorPalette, $mdIconProvider, $translateProvider) {
         $translateProvider.translations("ch", {
             my_platform: "我的平台"
         });
@@ -282,6 +291,7 @@ angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers
         // Use for change ionic spinner to android pattern.
         $ionicConfigProvider.spinner.icon("android");
         $ionicConfigProvider.views.swipeBackEnabled(false);
+        $ionicConfigProvider.backButton.previousTitleText(false).text('');
 
         // mdIconProvider is function of Angular Material.
         // It use for reference .SVG file and improve performance loading.
@@ -325,10 +335,20 @@ angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers
 
         appPrimaryColor = $mdColorPalette[$mdThemingProvider._THEMES.default.colors.primary.name]["500"]; //Use for get base color of theme.
 
+        $urlRouterProvider.when(
+            '/public',
+            '/public/dashboard');
+
         $stateProvider
+            .state('public', {
+                url: "/public",
+                cache: false,
+                templateUrl: "templates/blyn/core/public/html/public_menu.html",
+                controller: 'publicMenuCtrl'
+            })
             .state('user', {
                 url: "/user",
-                //abstract: true,
+                cache: false,
                 templateUrl: "templates/blyn/core/user/html/user_menu.html",
                 controller: 'userMenuCtrl'
             })
@@ -338,7 +358,7 @@ angular.module('starter', ['ionic', 'ngIOS9UIWebViewPatch', 'starter.controllers
                     spaceId: null
                 },
                 //abstract: true,
-                templateUrl: "templates/blyn/core/space/html/menu.html",
+                templateUrl: "templates/blyn/core/space/html/userSpace.html",
                 controller: 'spaceCtrl',
                 resolve: {
                     currentSpace: function ($stateParams, $q, spaceService) {

@@ -1,181 +1,223 @@
 // Controller of menu toggle.
 // Learn more about Sidenav directive of angular material
 // https://material.angularjs.org/latest/#/demo/material.components.sidenav
-appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $mdSidenav, $log, $ionicHistory, $state, $ionicPlatform, $mdDialog, $mdBottomSheet, $mdMenu, $mdSelect) {
-    
-    $scope.toggleLeft = buildToggler('left');
+(function () {
+    // appControllers.controller('userMenuCtrl', function ($scope, $timeout, $mdUtil, $mdSidenav, $ionicSideMenuDelegate, $log, $ionicHistory, $state, $ionicPlatform, $mdDialog, $mdBottomSheet, $mdMenu, $mdSelect, AuthService, BUser, BApi) {
+    //     //  BUser.loadMySpaces();
+    //     $scope.toggleLeft = buildToggler('left');
 
-    // buildToggler is for create menu toggle.
-    // Parameter :  
-    // navID = id of navigation bar.
-    function buildToggler(navID) {
-        var debounceFn = $mdUtil.debounce(function () {
-            $mdSidenav(navID).toggle();
-        }, 0);
-        return debounceFn;
-    };// End buildToggler.
+    //     // buildToggler is for create menu toggle.
+    //     // Parameter :  
+    //     // navID = id of navigation bar.
+    //     function buildToggler(navID) {
+    //         var debounceFn = $mdUtil.debounce(function () {
+    //             $mdSidenav(navID).toggle();
+    //         }, 0);
+    //         return debounceFn;
+    //     };// End buildToggler.
 
-    // navigateTo is for navigate to other page 
-    // by using targetPage to be the destination state. 
-    // Parameter :  
-    // stateNames = target state to go
-    $scope.navigateTo = function (stateName) {
-        $timeout(function () {
-            $mdSidenav('left').close();
-            if ($ionicHistory.currentStateName() != stateName) {
-                $ionicHistory.nextViewOptions({
-                    // disableAnimate: true,
-                    // disableBack: true
-                });
-                $state.go(stateName);
-            }
-        }, ($scope.isAndroid == false ? 300 : 0));
-    };// End navigateTo.
+    //     // navigateTo is for navigate to other page 
+    //     // by using targetPage to be the destination state. 
+    //     // Parameter :  
+    //     // stateNames = target state to go
+    //     $scope.navigateTo = function (stateName) {
+    //         $timeout(function () {
+    //             $mdSidenav('left').close();
+    //             if ($ionicHistory.currentStateName() != stateName) {
+    //                 $ionicHistory.nextViewOptions({
+    //                     // disableAnimate: true,
+    //                     // disableBack: true
+    //                 });
+    //                 $state.go(stateName);
+    //             }
+    //         }, ($scope.isAndroid == false ? 300 : 0));
+    //     };// End navigateTo.
 
-    //closeSideNav is for close side navigation
-    //It will use with event on-swipe-left="closeSideNav()" on-drag-left="closeSideNav()"
-    //When user swipe or drag md-sidenav to left side
-    $scope.closeSideNav = function(){
-        $mdSidenav('left').close();
-    };
-    //End closeSideNav
+    //     //closeSideNav is for close side navigation
+    //     //It will use with event on-swipe-left="closeSideNav()" on-drag-left="closeSideNav()"
+    //     //When user swipe or drag md-sidenav to left side
+    //     $scope.closeSideNav = function () {
+    //         $mdSidenav('left').close();
+    //     };
+    //     $scope.logout = function () {
+    //         AuthService.logout();
+    //         $scope.isAuthenticated = false;
+    //         $scope.closeSideNav();
 
-    //  $ionicPlatform.registerBackButtonAction(callback, priority, [actionId])
-    //
-    //     Register a hardware back button action. Only one action will execute
-    //  when the back button is clicked, so this method decides which of
-    //  the registered back button actions has the highest priority.
-    //
-    //     For example, if an actionsheet is showing, the back button should
-    //  close the actionsheet, but it should not also go back a page view
-    //  or close a modal which may be open.
-    //
-    //  The priorities for the existing back button hooks are as follows:
-    //  Return to previous view = 100
-    //  Close side menu         = 150
-    //  Dismiss modal           = 200
-    //  Close action sheet      = 300
-    //  Dismiss popup           = 400
-    //  Dismiss loading overlay = 500
-    //
-    //  Your back button action will override each of the above actions
-    //  whose priority is less than the priority you provide. For example,
-    //  an action assigned a priority of 101 will override the ‘return to
-    //  previous view’ action, but not any of the other actions.
-    //
-    //  Learn more at : http://ionicframework.com/docs/api/service/$ionicPlatform/#registerBackButtonAction
+    //         $timeout(function () {
+    //             //   $ionicLoading.hide();
+    //             $ionicHistory.clearCache();
+    //             $ionicHistory.clearHistory();
+    //             $ionicHistory.nextViewOptions({
+    //                 disableBack: true,
+    //                 historyRoot: true
+    //             });
+    //             $state.go('public.dashboard');
+    //         }, 30);
+    //     };
 
-    $ionicPlatform.registerBackButtonAction(function(){
+        // $scope.$watch(function () {
+        //     return $ionicSideMenuDelegate.getOpenRatio();
+        // },
+        //     function (ratio) {
+        //         if (ratio === 1) {
+        //             console.log('ratio is true');
+        //             $scope.isActive = true;
+        //         } else {
+        //             $scope.isActive = false;
+        //             console.log('ratio is false');
+        //         }
+        //     });
 
-        if($mdSidenav("left").isOpen()){
-            //If side navigation is open it will close and then return
-            $mdSidenav('left').close();
-        }
-        else if(jQuery('md-bottom-sheet').length > 0 ) {
-            //If bottom sheet is open it will close and then return
-            $mdBottomSheet.cancel();
-        }
-        else if(jQuery('[id^=dialog]').length > 0 ){
-            //If popup dialog is open it will close and then return
-            $mdDialog.cancel();
-        }
-        else if(jQuery('md-menu-content').length > 0 ){
-            //If md-menu is open it will close and then return
-            $mdMenu.hide();
-        }
-        else if(jQuery('md-select-menu').length > 0 ){
-            //If md-select is open it will close and then return
-            $mdSelect.hide();
-        }
+    //     $scope.selectSpace = function (toSpace) {
+    //         var toParam = { space: toSpace };
+    //         $state.go('user.space', toParam);
+    //     }
 
-        else{
+    //     $scope.isAuthenticated = AuthService.isAuthenticated;
+    //     $scope.$on('event:login', function (e) {
 
-            // If control :
-            // side navigation,
-            // bottom sheet,
-            // popup dialog,
-            // md-menu,
-            // md-select
-            // is not opening, It will show $mdDialog to ask for
-            // Confirmation to close the application or go to the view of lasted state.
+    //         $scope.isAuthenticated = true;
+    //         $scope.userSpaces = getUserSpaces();
+    //     });
+    //     $scope.$on('event:logout', function (e) {
 
-            // Check for the current state that not have previous state.
-            // It will show $mdDialog to ask for Confirmation to close the application.
+    //         $scope.isAuthenticated = false;
+    //     });
 
-            if($ionicHistory.backView() == null){
+    //     $scope.userSpaces = getUserSpaces();
 
-                //Check is popup dialog is not open.
-                if(jQuery('[id^=dialog]').length == 0 ) {
+    //     function getUserSpaces() {
+    //         var me = BUser.getCurrent();
+    //         return me.spaces;
+    //     };
+    //     //End closeSideNav
 
-                    // mdDialog for show $mdDialog to ask for
-                    // Confirmation to close the application.
+    //     //  $ionicPlatform.registerBackButtonAction(callback, priority, [actionId])
+    //     //
+    //     //     Register a hardware back button action. Only one action will execute
+    //     //  when the back button is clicked, so this method decides which of
+    //     //  the registered back button actions has the highest priority.
+    //     //
+    //     //     For example, if an actionsheet is showing, the back button should
+    //     //  close the actionsheet, but it should not also go back a page view
+    //     //  or close a modal which may be open.
+    //     //
+    //     //  The priorities for the existing back button hooks are as follows:
+    //     //  Return to previous view = 100
+    //     //  Close side menu         = 150
+    //     //  Dismiss modal           = 200
+    //     //  Close action sheet      = 300
+    //     //  Dismiss popup           = 400
+    //     //  Dismiss loading overlay = 500
+    //     //
+    //     //  Your back button action will override each of the above actions
+    //     //  whose priority is less than the priority you provide. For example,
+    //     //  an action assigned a priority of 101 will override the ‘return to
+    //     //  previous view’ action, but not any of the other actions.
+    //     //
+    //     //  Learn more at : http://ionicframework.com/docs/api/service/$ionicPlatform/#registerBackButtonAction
 
-                    $mdDialog.show({
-                        controller: 'DialogController',
-                        templateUrl: 'confirm-dialog.html',
-                        targetEvent: null,
-                        locals: {
-                            displayOption: {
-                                title: "Confirmation",
-                                content: "Do you want to close the application?",
-                                ok: "Confirm",
-                                cancel: "Cancel"
-                            }
-                        }
-                    }).then(function () {
-                        //If user tap Confirm at the popup dialog.
-                        //Application will close.
-                        ionic.Platform.exitApp();
-                    }, function () {
-                        // For cancel button actions.
-                    }); //End mdDialog
-                }
-            }
-            else{
-                //Go to the view of lasted state.
-                $ionicHistory.goBack();
-            }
-        }
+    //     $ionicPlatform.registerBackButtonAction(function () {
 
-    },100);
-    //End of $ionicPlatform.registerBackButtonAction
+    //         if ($mdSidenav("left").isOpen()) {
+    //             //If side navigation is open it will close and then return
+    //             $mdSidenav('left').close();
+    //         }
+    //         else if (jQuery('md-bottom-sheet').length > 0) {
+    //             //If bottom sheet is open it will close and then return
+    //             $mdBottomSheet.cancel();
+    //         }
+    //         else if (jQuery('[id^=dialog]').length > 0) {
+    //             //If popup dialog is open it will close and then return
+    //             $mdDialog.cancel();
+    //         }
+    //         else if (jQuery('md-menu-content').length > 0) {
+    //             //If md-menu is open it will close and then return
+    //             $mdMenu.hide();
+    //         }
+    //         else if (jQuery('md-select-menu').length > 0) {
+    //             //If md-select is open it will close and then return
+    //             $mdSelect.hide();
+    //         }
 
-}); // End of menu toggle controller.
+    //         else {
 
-// Controller of dashboard.
-appControllers.controller('publicCtrl', function ($scope, $timeout, $state,$stateParams, $ionicHistory) {
+    //             // If control :
+    //             // side navigation,
+    //             // bottom sheet,
+    //             // popup dialog,
+    //             // md-menu,
+    //             // md-select
+    //             // is not opening, It will show $mdDialog to ask for
+    //             // Confirmation to close the application or go to the view of lasted state.
 
-    //$scope.isAnimated is the variable that use for receive object data from state params.
-    //For enable/disable row animation.
-    $scope.isAnimated =  $stateParams.isAnimated;
+    //             // Check for the current state that not have previous state.
+    //             // It will show $mdDialog to ask for Confirmation to close the application.
 
-    // navigateTo is for navigate to other page 
-    // by using targetPage to be the destination state. 
-    // Parameter :  
-    // stateNames = target state to go.
-    $scope.navigateTo = function (stateName) {
-        $timeout(function () {
-            if ($ionicHistory.currentStateName() != stateName) {
-                $ionicHistory.nextViewOptions({
-                    disableAnimate: false,
-                    disableBack: true
-                });
-                $state.go(stateName);
-            }
-        }, ($scope.isAnimated  ? 300 : 0));
-    }; // End of navigateTo.
+    //             if ($ionicHistory.backView() == null) {
 
-    // goToSetting is for navigate to Dashboard Setting page
-    $scope.goToSetting = function () {
-        $state.go("app.dashboardSetting");
-    };// End goToSetting.
+    //                 //Check is popup dialog is not open.
+    //                 if (jQuery('[id^=dialog]').length == 0) {
 
-}); // End of dashboard controller.
+    //                     // mdDialog for show $mdDialog to ask for
+    //                     // Confirmation to close the application.
 
-appControllers.controller('userDashboardCtrl', function ($scope) {
+    //                     $mdDialog.show({
+    //                         controller: 'DialogController',
+    //                         templateUrl: 'confirm-dialog.html',
+    //                         targetEvent: null,
+    //                         locals: {
+    //                             displayOption: {
+    //                                 title: "Confirmation",
+    //                                 content: "Do you want to close the application?",
+    //                                 ok: "Confirm",
+    //                                 cancel: "Cancel"
+    //                             }
+    //                         }
+    //                     }).then(function () {
+    //                         //If user tap Confirm at the popup dialog.
+    //                         //Application will close.
+    //                         ionic.Platform.exitApp();
+    //                     }, function () {
+    //                         // For cancel button actions.
+    //                     }); //End mdDialog
+    //                 }
+    //             }
+    //             else {
+    //                 //Go to the view of lasted state.
+    //                 $ionicHistory.goBack();
+    //             }
+    //         }
 
-});
+    //     }, 100);
+    //     //End of $ionicPlatform.registerBackButtonAction
 
-appControllers.controller('userProfileCtrl', function ($scope) {
+    // }); // End of menu toggle controller.
 
-});
+    // appControllers.controller('userDashboardCtrl', function ($scope) {
+
+    // });
+
+    // appControllers.controller('userProfileCtrl', function ($scope) {
+
+    //        this.me = "My Profile";
+    // });
+   
+   
+    // appControllers.controller('userFavoriteCtrl', function ($scope) {
+    //     this.me = "My Favorite";
+    // });
+
+    // appControllers.controller('userFinanceCtrl', function ($scope) {
+    //       this.me = "My Finance";
+    // });
+
+    // appControllers.controller('userTradeCtrl', function ($scope) {
+    //     this.me = "My Trade";
+    // });
+
+
+})();
+
+

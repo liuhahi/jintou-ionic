@@ -26,39 +26,33 @@
                     <br/>
                     <span class="sub-title">Material Design Application</span>
                 </p>
-            </div><!--end menu header section-->
-        </div> <!--menu content section-->
+            </div>
+            <!--end menu header section-->
+        </div>
+        <!--menu content section-->
         <ion-content id="toggle-menu-left-content">
 
             <!--If device is android application will present below code.-->
             <!--It will disable animation to better performance on android.-->
             <!--list section-->
             <div ng-if="isAndroid" class="menu-list">
-                <md-subheader class="md-warn">会员</md-subheader>
-                <div class="row menu-item"  ng-click="navigateTo('user.login')">
-                    <div class="col-33">
-                        <i class="fa fa-sign-in"></i>
-                    </div>
-                    <div class="col-66">
-                        <span>登录</span>
-                    </div>
-                </div>
-                <div class="row menu-item" ng-click="navigateTo('user.signup')">
-                    <div class="col-33">
+                <div ng-if="isAuthenticated">
+                    <md-subheader class="md-warn">会员</md-subheader>
+                    <md-list-item class="menu-list-item" ng-click=" logout()">
+                        <i class="fa fa-sign-out"></i>
+                        <span>退出</span>
+                    </md-list-item>
+                    <md-list-item class="menu-list-item" ng-click="navigateTo('user.profile')">
                         <i class="fa fa-user-plus"></i>
-                    </div>
-                    <div class="col-66">
-                        <span>注册</span>
-                    </div>
-                </div>
-                <md-subheader class="md-warn">机构</md-subheader>
-                <div class="row menu-item"  ng-click="navigateTo('user.space.public')">
-                    <div class="col-33">
-                        <i class="fa fa-wordpress"></i>
-                    </div>
-                    <div class="col-66">
-                        <span>机构列表</span>
-                    </div>
+                        <span>个人资料</span>
+                    </md-list-item>
+                    <md-subheader class="md-warn">机构</md-subheader>
+                    <ion-list>
+                        <a class=" item item-icon-right"  ng-repeat="space in userSpaces" ng-click = "selectSpace(space)" >
+                            {{space.name}}
+                            <i class="icon icon-chevron-right icon-accessory"></i>
+                        </a>
+                    </ion-list>
                 </div>
             </div>
 
@@ -66,23 +60,28 @@
             <!--If device is not Android application will present below code.-->
             <!--It will show animation when selecting row.-->
             <md-list ng-if="!isAndroid">
-                <md-subheader class="md-warn">会员</md-subheader>
-                <md-list-item class="menu-list-item" ng-click="navigateTo('user.login')">
-                    <i class="fa fa-sign-in"></i>
-                    <span>登录</span>
-                </md-list-item>
-                <md-list-item class="menu-list-item" ng-click="navigateTo('user.signup')">
-                    <i class="fa fa-user-plus"></i>
-                    <span>注册</span>
-                </md-list-item>
-                <md-subheader class="md-warn">机构</md-subheader>
-                <md-list-item class="menu-list-item" ng-click="navigateTo('user.space.dashboard')">
-                    <i class="fa fa-wordpress"></i>
-                    <span>机构列表</span>
-                </md-list-item>
+                <div ng-if="isAuthenticated">
+                    <md-subheader class="md-warn">会员</md-subheader>
+                    <md-list-item class="menu-list-item" ng-click=" logout()">
+                        <i class="fa fa-sign-out"></i>
+                        <span>退出</span>
+                    </md-list-item>
+                    <md-list-item class="menu-list-item" ng-click="navigateTo('user.profile')">
+                        <i class="fa fa-user-plus"></i>
+                        <span>个人资料</span>
+                    </md-list-item>
+                    <md-subheader class="md-warn">机构</md-subheader>
+                    <ion-list>
+                        <a class=" item item-icon-right"  ng-repeat="space in userSpaces" ng-click = "selectSpace(space)" >
+                            {{space.name}}
+                            <i class="icon icon-chevron-right icon-accessory"></i>
+                        </a>
+                    </ion-list>
+                </div>
             </md-list>
             <!--end list section-->
-        </ion-content><!--end menu content section-->
+        </ion-content>
+        <!--end menu content section-->
         <!--end menu section-->
 
     </md-sidenav>

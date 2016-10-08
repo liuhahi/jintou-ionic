@@ -57,34 +57,6 @@ appServices.factory('BUser', function ($q, $http, BApi) {
         })
     }
 
-    service.getPersonSpace = function () {
-        var mySpaces = current.spaces;
-
-        if (current.personSpace && current.personSpace != null) {
-            return current.personSpace;
-        } else {
-            var spaces = [];
-            mySpaces.forEach(function (space) {
-                if (space.type.name.indexOf('person.') === 0) {
-                    current.personSpace = space;
-                } else {
-                    spaces.push(space);
-                }
-            })
-            current.mySpaces = spaces;
-        }
-    }
-
-    //return all spaces except person space
-    service.getMySpaces = function () {
-        if (current.mySpaces) {
-            return current.mySpaces;
-        } else {
-            this.getPersonSpace();
-            return current.mySpaces;
-        }
-    }
-
     return service;
 });
 
